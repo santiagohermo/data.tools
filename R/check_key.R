@@ -22,12 +22,14 @@ check_key <- function(dt, key) {
     missing_keys <- key[!(key %in% names(dt))]
     if (length(missing_keys) == 1) {
       var = "variable"
+      is  = "is"
     } else {
       var = "variables"
+      is  = "are"
     }
 
     stop(paste0("KeyError: Key ", var, " ",
-                and(missing_keys), " are not in the data table."))
+                and(missing_keys), " ", is, " not present in the data table."))
 
   } else if (nrow(dt) != nrow(unique(dt[, .SD, .SDcols = key]))) {
     stop("KeyError: Key variables do not uniquely identify observations.")

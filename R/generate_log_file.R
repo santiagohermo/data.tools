@@ -21,7 +21,6 @@
 #' @importFrom stats sd
 #' @importFrom utils capture.output
 #' @importFrom digest digest
-#' @importFrom base file.exists
 #' @importFrom stargazer stargazer
 #' @export
 generate_log_file <- function(dt, key, outfile, logname,
@@ -64,8 +63,8 @@ generate_log_file <- function(dt, key, outfile, logname,
   }
 
   cat("File:", outfile, '\n', file = logname, append = T)
-  cat("MD5: ", hash,     '\n', file = logname, append = T)
-  cat("Key: ", key,      '\n', file = logname, append = T)
+  cat("MD5: ", hash,    '\n', file = logname, append = T)
+  cat("Key: ", key,     '\n', file = logname, append = T)
 
   s = capture.output(stargazer::stargazer(summary_table, summary = F, type = 'text'))
   cat(paste(s,"\n"), file = logname, append = T)
