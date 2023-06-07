@@ -1,4 +1,3 @@
-library(testthat)
 library(data.table)
 
 test_that("check_key handles non-existing keys correctly", {
@@ -6,7 +5,7 @@ test_that("check_key handles non-existing keys correctly", {
   dt <- data.table(A = c(1,2,3), B = c(4,5,6), C = c(7,8,9))
 
   expect_error(check_key(dt, c("D", "E")),
-               "KeyError: Key variables D and E are not in the data table.")
+               "KeyError: Key variables D and E are not present in the data table.")
 })
 
 test_that("check_key handles non-unique keys correctly", {

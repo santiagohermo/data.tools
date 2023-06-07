@@ -1,3 +1,5 @@
+library(data.table)
+
 test_that("generate_log_file creates log file", {
   dt      <- data.table(iris)
   key     <- "123"

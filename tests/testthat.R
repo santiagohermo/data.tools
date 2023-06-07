@@ -8,6 +8,5 @@
 
 library(testthat)
 library(data.tools)
-library(data.table)
 
 test_check("data.tools")
