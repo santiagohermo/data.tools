@@ -19,6 +19,7 @@ This function checks if a given key (or keys) is present in the data.table objec
 If the conditions are met, it reorders the data table with the key columns first, otherwise, it stops with an error message.
 }
 \examples{
+
 dt <- data.table::data.table(A = c(1,2,3), B = c(4,5,6), C = c(7,8,9))
 check_key(dt, c("A", "B"))
 

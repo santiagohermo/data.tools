@@ -9,6 +9,7 @@
 #' @return A reordered data.table object if the key is valid, otherwise an error is thrown.
 #'
 #' @examples
+#'
 #' dt <- data.table::data.table(A = c(1,2,3), B = c(4,5,6), C = c(7,8,9))
 #' check_key(dt, c("A", "B"))
 #'

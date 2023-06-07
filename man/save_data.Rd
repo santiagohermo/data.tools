@@ -38,6 +38,7 @@ This function saves a data table to various formats including .csv, .dta, .fst, 
 It also generates a log file containing the summary of a given data table by calling the \code{generate_log_file} function.
 }
 \examples{
+
 data(iris)
 save_data(iris, key = "Species", outfile = "iris.csv")
 

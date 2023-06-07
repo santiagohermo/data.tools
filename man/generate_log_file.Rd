@@ -29,6 +29,7 @@ number of non-NA values, and class of all variables.
 It also includes an MD5 hash of the data table and the given key.
 }
 \examples{
+
 data(iris)
 generate_log_file(iris, key = "123", outfile = "iris.csv", logname = "iris.log")
 

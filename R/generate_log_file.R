@@ -15,6 +15,7 @@
 #' @return A message indicating successful log file generation.
 #'
 #' @examples
+#'
 #' data(iris)
 #' generate_log_file(iris, key = "123", outfile = "iris.csv", logname = "iris.log")
 #'
