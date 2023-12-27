@@ -1,4 +1,4 @@
-#' @title notin
+#' @title Negation of `%in%`
 #' 
 #' @description
 #' This function is a negation of the %in% operator.
