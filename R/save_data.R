@@ -1,7 +1,9 @@
-#' Save Data Table to Various Formats with Logging
+#' @title Save data to various formats
 #'
-#' This function saves a data table to various formats including .csv, .dta, .fst, .feather, and .RDS.
-#' It also generates a log file containing the summary of a given data table by calling the `generate_log_file` function.
+#' @description
+#' This function saves a data table to various formats including `csv`, `dta`, `fst`, `feather`, and `rds`.
+#' It generates a log file containing the summary of a given data table and the key.
+#' It checks if a given key (or keys) is present in the data.table object and uniquely identifies each observation.
 #'
 #' @param dt A data table.
 #' @param key A key that identifies the unique combination of rows.
@@ -10,7 +12,7 @@
 #' Deafults to NULL. Set to FALSE to not create a log file.
 #' @param replacelog A boolean flag to control whether the generated log file replaces an existing logfile or not. Deafults to TRUE.
 #' @param mask_vars A vector of names of numeric variables to be excluded from the summary in the log file. Defaults to NULL.
-#' @param compress_opt The compression level for fst files. Defaults to 50.
+#' @param compress_opt The compression level for `fst` files. Defaults to 50.
 #'
 #' @return A message indicating successful saving of the data file.
 #'
@@ -19,7 +21,9 @@
 #' data(iris)
 #' save_data(iris, key = "Species", outfile = "iris.csv")
 #'
-#' @importFrom data.table fwrite setDT
+#' @seealso \code{\link{check_key}}, \code{\link{generate_log_file}}.
+#' 
+#' @importFrom data.table fwrite setDT is.data.table
 #' @importFrom haven write_dta
 #' @importFrom fst write_fst
 #' @importFrom arrow write_feather
@@ -28,6 +32,26 @@
 save_data <- function(dt, key, outfile,
                       logfile = NULL, replacelog = TRUE,
                       mask_vars = NULL, compress_opt = 50) {
+
+  # Check inputs
+  if (!is.data.table(dt)) {
+    setDT(dt)
+  }
+  if (!is.character(key)) {
+    stop("TypeError: `key` must be a character vector.")
+  }
+  if (!is.character(outfile)) {
+    stop("TypeError: `outfile` must be a character vector.")
+  }
+  if (!is.null(logfile) & !is.character(logfile)) {
+    stop("TypeError: `logfile` must be a character vector.")
+  }
+  if (!is.logical(replacelog)) {
+    stop("TypeError: `replacelog` must be a logical vector.")
+  }
+  if (!is.null(mask_vars) & !is.character(mask_vars)) {
+    stop("TypeError: `mask_vars` must be a character vector.")
+  }
 
   filename <- base::basename(outfile)
   dir      <- base::dirname(outfile)
@@ -81,6 +105,7 @@ save_data <- function(dt, key, outfile,
       logfile <- file.path(dir, "data_file_manifest.log")
     }
 
-    generate_log_file(dt, key, outfile, logfile, replacelog, mask_vars)
+    mm <- generate_log_file(dt, key, outfile, logfile, replacelog, mask_vars)
+    message(mm)
   }
 }
