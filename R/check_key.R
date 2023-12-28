@@ -1,23 +1,40 @@
-#' Check Key in Data Table
+#' @title Check Key in Data Table
 #'
-#' This function checks if a given key (or keys) is present in the data.table object and uniquely identifies each observation.
+#' @description
+#' This function checks if a given key (or keys) is present in the data object and uniquely identifies each observation.
 #' If the conditions are met, it reorders the data table with the key columns first, otherwise, it stops with an error message.
 #'
-#' @param dt A data.table object.
+#' @param dt A data object.
 #' @param key A character vector specifying the key(s).
 #'
 #' @return A reordered data.table object if the key is valid, otherwise an error is thrown.
 #'
 #' @examples
 #'
-#' dt <- data.table::data.table(A = c(1,2,3), B = c(4,5,6), C = c(7,8,9))
-#' check_key(dt, c("A", "B"))
+#' dt <- data.table::data.table(unit = c("A", "A", "B", "C", "B", "C"), 
+#'                              time = c(1, 2, 1, 1, 2, 2),
+#'                              y    = c(3, 2, 3, 2, 3, 4))
+#' 
+#' dt <- check_key(dt, c("unit", "time"))
+#' dt
 #'
-#' @importFrom data.table setorderv
+#' @importFrom data.table setorderv setDT is.data.table
 #' @importFrom and and
+#' @importFrom methods as
+#' @importFrom stats quantile
+#' 
 #' @export
 #'
 check_key <- function(dt, key) {
+
+  # Check inputs
+  if (!is.data.table(dt)) {
+    dt_format <- class(dt)
+    data.table::setDT(dt)
+  }
+  if (!is.character(key)) {
+    stop("TypeError: `key` must be a character vector.")
+  }
 
   if (!any(key %in% names(dt))) {
     missing_keys <- key[!(key %in% names(dt))]
@@ -38,7 +55,13 @@ check_key <- function(dt, key) {
   } else {
     data.table::setorderv(dt, key)
     reordered_colnames <- c(key, setdiff(names(dt), key))
-    dt <- dt[, ..reordered_colnames]
+    dt <- dt[, reordered_colnames, with=FALSE]
+    
+    # Change back to original format
+    if (exists("dt_format")) {
+      dt <- as(dt, dt_format)
+    }
+
     return(dt)
   }
 }

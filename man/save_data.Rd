@@ -2,7 +2,7 @@
 % Please edit documentation in R/save_data.R
 \name{save_data}
 \alias{save_data}
-\title{Save Data Table to Various Formats with Logging}
+\title{Save data to various formats}
 \usage{
 save_data(
   dt,
@@ -28,18 +28,35 @@ Deafults to NULL. Set to FALSE to not create a log file.}
 
 \item{mask_vars}{A vector of names of numeric variables to be excluded from the summary in the log file. Defaults to NULL.}
 
-\item{compress_opt}{The compression level for fst files. Defaults to 50.}
+\item{compress_opt}{The compression level for \code{fst} files. Defaults to 50.}
 }
 \value{
 A message indicating successful saving of the data file.
 }
 \description{
-This function saves a data table to various formats including .csv, .dta, .fst, .feather, and .RDS.
-It also generates a log file containing the summary of a given data table by calling the \code{generate_log_file} function.
+This function saves a data table to various formats including \code{csv}, \code{dta}, \code{fst}, \code{feather}, and \code{rds}.
+It generates a log file containing the summary of a given data table and the key.
+It checks if a given key (or keys) is present in the data.table object and uniquely identifies each observation.
 }
 \examples{
 
-data(iris)
-save_data(iris, key = "Species", outfile = "iris.csv")
+# Simulate a data set
+dt <- data.table::data.table(unit = c("A", "A", "B", "C", "B", "C"), 
+                             time = c(1, 2, 1, 1, 2, 2),
+                             y    = c(3, 2, 3, 2, 3, 4))
 
+# Save the data set
+save_data(dt, key = c("unit", "time"), 
+          outfile = "data.csv")
+
+# Returns error with wrong key
+# save_data(dt, key = "unit", 
+#           outfile = "data.csv")
+
+# Remove the file
+file.remove("data.csv")
+
+}
+\seealso{
+\code{\link{check_key}}, \code{\link{generate_log_file}}.
 }

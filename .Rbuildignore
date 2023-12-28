@@ -1,3 +1,13 @@
 ^data\.tools\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^README\.md$
+^\.Rhistory$
+^\.RData$
+^\.gitignore$
+^\.git$
+^\.github$
+^\.gitattributes$
+^\.gitmodules$
+^\.gitkeep$
+
