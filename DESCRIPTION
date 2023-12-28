@@ -1,13 +1,23 @@
 Package: data.tools
-Title: Convenience Functions for Data Wrangling using data.table
+Title: Convenience functions for data manipulation
 Version: 0.0.1
 Authors@R: 
     person("Santiago", "Hermo", , "santiagohermo@gmail.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: This package contains a set of functions that I use for data manipulation. It is a work in progress.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)
+Imports:
+    stats,
+    methods,
+    data.table,
+    fst,
+    arrow,
+    haven,
+    stargazer,
+    and,
+    digest
 Config/testthat/edition: 3

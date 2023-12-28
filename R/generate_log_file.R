@@ -16,15 +16,22 @@
 #'
 #' @examples
 #'
-#' data(iris)
-#' generate_log_file(iris, key = "123", outfile = "iris.csv", logname = "iris.log")
+#' dt <- data.table::data.table(unit = c("A", "A", "B", "C", "B", "C"), 
+#'                              time = c(1, 2, 1, 1, 2, 2),
+#'                              y    = c(3, 2, 3, 2, 3, 4))
+#' 
+#' generate_log_file(dt, key = c("unit", "time"), 
+#'                   outfile = "data.csv", 
+#'                   logname = "data.log")
 #'
 #' @importFrom data.table setDT is.data.table
 #' @importFrom stats sd
 #' @importFrom utils capture.output
 #' @importFrom digest digest
 #' @importFrom stargazer stargazer
+#' 
 #' @export
+#' 
 generate_log_file <- function(dt, key, outfile, logname,
                               replace = TRUE, mask_vars = NULL) {
 

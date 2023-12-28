@@ -7,7 +7,7 @@
 check_key(dt, key)
 }
 \arguments{
-\item{dt}{A data.table object.}
+\item{dt}{A data object.}
 
 \item{key}{A character vector specifying the key(s).}
 }
@@ -15,12 +15,16 @@ check_key(dt, key)
 A reordered data.table object if the key is valid, otherwise an error is thrown.
 }
 \description{
-This function checks if a given key (or keys) is present in the data.table object and uniquely identifies each observation.
+This function checks if a given key (or keys) is present in the data object and uniquely identifies each observation.
 If the conditions are met, it reorders the data table with the key columns first, otherwise, it stops with an error message.
 }
 \examples{
 
-dt <- data.table::data.table(A = c(1,2,3), B = c(4,5,6), C = c(7,8,9))
-check_key(dt, c("A", "B"))
+dt <- data.table::data.table(unit = c("A", "A", "B", "C", "B", "C"), 
+                             time = c(1, 2, 1, 1, 2, 2),
+                             y    = c(3, 2, 3, 2, 3, 4))
+
+dt <- check_key(dt, c("unit", "time"))
+dt
 
 }

@@ -11,11 +11,18 @@
 #'
 #' @examples
 #'
-#' dt <- data.table::data.table(A = c(1,2,3), B = c(4,5,6), C = c(7,8,9))
-#' check_key(dt, c("A", "B"))
+#' dt <- data.table::data.table(unit = c("A", "A", "B", "C", "B", "C"), 
+#'                              time = c(1, 2, 1, 1, 2, 2),
+#'                              y    = c(3, 2, 3, 2, 3, 4))
+#' 
+#' dt <- check_key(dt, c("unit", "time"))
+#' dt
 #'
 #' @importFrom data.table setorderv setDT is.data.table
 #' @importFrom and and
+#' @importFrom methods as
+#' @importFrom stats quantile
+#' 
 #' @export
 #'
 check_key <- function(dt, key) {
@@ -48,7 +55,7 @@ check_key <- function(dt, key) {
   } else {
     data.table::setorderv(dt, key)
     reordered_colnames <- c(key, setdiff(names(dt), key))
-    dt <- dt[, ..reordered_colnames]
+    dt <- dt[, reordered_colnames, with=FALSE]
     
     # Change back to original format
     if (exists("dt_format")) {

@@ -18,8 +18,21 @@
 #'
 #' @examples
 #'
-#' data(iris)
-#' save_data(iris, key = "Species", outfile = "iris.csv")
+#' # Simulate a data set
+#' dt <- data.table::data.table(unit = c("A", "A", "B", "C", "B", "C"), 
+#'                              time = c(1, 2, 1, 1, 2, 2),
+#'                              y    = c(3, 2, 3, 2, 3, 4))
+#' 
+#' # Save the data set
+#' save_data(dt, key = c("unit", "time"), 
+#'           outfile = "data.csv")
+#' 
+#' # Returns error with wrong key
+#' # save_data(dt, key = "unit", 
+#' #           outfile = "data.csv")
+#' 
+#' # Remove the file
+#' file.remove("data.csv")
 #'
 #' @seealso \code{\link{check_key}}, \code{\link{generate_log_file}}.
 #' 
@@ -27,6 +40,7 @@
 #' @importFrom haven write_dta
 #' @importFrom fst write_fst
 #' @importFrom arrow write_feather
+#' 
 #' @export
 #'
 save_data <- function(dt, key, outfile,
