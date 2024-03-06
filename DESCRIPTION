@@ -1,6 +1,6 @@
 Package: data.tools
 Title: Convenience functions for data manipulation
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Santiago", "Hermo", , "santiagohermo@gmail.com", role = c("aut", "cre"))
 Description: This package contains a set of functions that I use for data manipulation. It is a work in progress.
