@@ -116,3 +116,35 @@ test_that("save_data correctly stops when invalid key is provided", {
   expect_error(save_data(dt, key = invalid_key, outfile = "dt_test.csv"),
                paste0("KeyError: Key variable ", invalid_key, " is not present in the data table."))
 })
+
+test_that("save_data correctly saves log file with default options", {
+    
+  dt <- data.table(id = c(1, 2, 3, 4),
+                    y  = c(3.2, 3.8, 4.5, 2.9),
+                    x  = c(5.1, 6.3, 7.0, 5.4))
+  
+  save_data(dt, key = "id", outfile = "dt_test.csv")
+  expect_true(file.exists("data_file_manifest.log"))
+  file.remove("data_file_manifest.log")
+})
+
+test_that("save_data correctly saves log file with custom name", {
+      
+  dt <- data.table(id = c(1, 2, 3, 4),
+                   y  = c(3.2, 3.8, 4.5, 2.9),
+                   x  = c(5.1, 6.3, 7.0, 5.4))
+  
+  save_data(dt, key = "id", outfile = "dt_test.csv", logfile = "custom_log_file.log")
+  expect_true(file.exists("custom_log_file.log"))
+  file.remove("custom_log_file.log")
+})
+
+test_that("save_data does not produce a log file when logfile == F", {
+    
+  dt <- data.table(id = c(1, 2, 3, 4),
+                   y  = c(3.2, 3.8, 4.5, 2.9),
+                   x  = c(5.1, 6.3, 7.0, 5.4))
+  
+  save_data(dt, key = "id", outfile = "dt_test.csv", logfile = F)
+  expect_false(file.exists("data_file_manifest.log"))
+})

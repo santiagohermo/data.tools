@@ -57,11 +57,11 @@ save_data <- function(dt, key, outfile,
   if (!is.character(outfile)) {
     stop("TypeError: `outfile` must be a character vector.")
   }
-  if (!is.null(logfile) & !is.character(logfile)) {
-    stop("TypeError: `logfile` must be a character vector.")
+  if (!is.null(logfile) & !is.character(logfile) & !is.logical(logfile)) {
+    stop("TypeError: `logfile` must be a character or a logical value.")
   }
   if (!is.logical(replacelog)) {
-    stop("TypeError: `replacelog` must be a logical vector.")
+    stop("TypeError: `replacelog` must be a logical value.")
   }
   if (!is.null(mask_vars) & !is.character(mask_vars)) {
     stop("TypeError: `mask_vars` must be a character vector.")
@@ -74,10 +74,11 @@ save_data <- function(dt, key, outfile,
     stop(paste0("Directory ", dir, " does not exist in the current working directory."))
   }
   if (!is.null(logfile)) {
-    log_dir <- base::dirname(logfile)
-
-    if (!dir.exists(log_dir)) {
-      stop(paste0("Log file directory ", log_dir, " does not exist in the current working directory."))
+    if (logfile != FALSE) {
+        log_dir <- base::dirname(logfile)
+        if (!dir.exists(log_dir)) {
+        stop(paste0("Log file directory ", log_dir, " does not exist in the current working directory."))
+        }
     }
   }
 
