@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.md$
+^README\.Rmd$
 ^\.Rhistory$
 ^\.RData$
 ^\.gitignore$
@@ -10,4 +11,3 @@
 ^\.gitattributes$
 ^\.gitmodules$
 ^\.gitkeep$
-
