@@ -29,9 +29,21 @@ dt[, y := rnorm(.N)]
 dt[, terciles_y        := cut_in_n(y, n=3)]
 dt[, terciles_y_within := cut_in_n(y, n=3), by=time]
 
-# Save the data set
+# Save the data set to a csv file with a log file
 save_data(dt, key = c("unit", "time"), 
           outfile = "data.csv")
 
+# Save the data set to a feather without a log file
+save_data(dt, key = c("unit", "time"), 
+          outfile = "data.feather", 
+          logfile = FALSE)
+
 ```
+
+
+## Available functions
+
+- `cut_in_n`: Bin a numeric vector into n equal-sized groups.
+- `save_data`: Save data set to a file with a log file, several formats are available.
+- `weighted_sd` and `weighted_var`: Compute weighted standard deviation and variance.
 
