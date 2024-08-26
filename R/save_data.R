@@ -57,11 +57,11 @@ save_data <- function(dt, key, outfile,
   if (!is.character(outfile)) {
     stop("TypeError: `outfile` must be a character vector.")
   }
-  if (!is.null(logfile) & !is.character(logfile)) {
-    stop("TypeError: `logfile` must be a character vector.")
+  if (!is.null(logfile) & !is.character(logfile) & !is.logical(logfile)) {
+    stop("TypeError: `logfile` must be a character or a logical value.")
   }
   if (!is.logical(replacelog)) {
-    stop("TypeError: `replacelog` must be a logical vector.")
+    stop("TypeError: `replacelog` must be a logical value.")
   }
   if (!is.null(mask_vars) & !is.character(mask_vars)) {
     stop("TypeError: `mask_vars` must be a character vector.")

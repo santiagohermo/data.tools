@@ -43,13 +43,13 @@ generate_log_file <- function(dt, key, outfile, logname,
     stop("TypeError: `key` must be a character vector.")
   }
   if (!is.character(outfile)) {
-    stop("TypeError: `outfile` must be a character vector.")
+    stop("TypeError: `outfile` must be a character value.")
   }
   if (!is.character(logname)) {
-    stop("TypeError: `logname` must be a character vector.")
+    stop("TypeError: `logname` must be a character value.")
   }
   if (!is.logical(replace)) {
-    stop("TypeError: `replace` must be a logical vector.")
+    stop("TypeError: `replace` must be a logical value.")
   }
   if (!is.null(mask_vars) & !is.character(mask_vars)) {
     stop("TypeError: `mask_vars` must be a character vector.")
