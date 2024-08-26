@@ -74,10 +74,11 @@ save_data <- function(dt, key, outfile,
     stop(paste0("Directory ", dir, " does not exist in the current working directory."))
   }
   if (!is.null(logfile)) {
-    log_dir <- base::dirname(logfile)
-
-    if (!dir.exists(log_dir)) {
-      stop(paste0("Log file directory ", log_dir, " does not exist in the current working directory."))
+    if (logfile != FALSE) {
+        log_dir <- base::dirname(logfile)
+        if (!dir.exists(log_dir)) {
+        stop(paste0("Log file directory ", log_dir, " does not exist in the current working directory."))
+        }
     }
   }
 
