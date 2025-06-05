@@ -25,7 +25,7 @@ jobs:
       # Define a matrix of operating systems and R versions
       matrix:
         os: [macos-latest, windows-latest]
-        r-version: ['3.6.3', '4.1.1']
+        r-version: ['4.4.3', '4.1.1']
         # Optionally, you can add include/exclude configurations here
         # For example, if a specific R version isn't available on an OS
         # include:
