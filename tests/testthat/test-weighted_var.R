@@ -41,9 +41,18 @@ test_that("returns the correct result with NAs common to both x and w", {
   expect_equal(result, expected_result, tolerance = 1e-6)
 })
 
-test_that("returns an error when any value of number of NAs differs", {
+test_that("correct computation when missing in one vector is present", {
   x <- c(1, 2, NA, 4, 5)
   w <- c(0.1, 0.2, 0.3, 0.2, 0.2)
 
-  expect_error(weighted_var(x, w, na.rm = TRUE))
+  x_noNA <- x[!is.na(x)]
+  w_noNA <- w[!is.na(x)]
+
+  wgt_mean     <- sum(x_noNA * w_noNA) / sum(w_noNA)
+  wgt_variance <- sum(w_noNA * (x_noNA - wgt_mean)^2) / sum(w_noNA)
+  expected_result <- wgt_variance
+
+  result <- weighted_var(x, w, na.rm = TRUE)
+
+  expect_equal(result, expected_result, tolerance = 1e-6)
 })

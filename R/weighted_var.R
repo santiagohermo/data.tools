@@ -3,6 +3,8 @@
 #' @description
 #' This function computes the weighted variance of a numeric vector.
 #' It uses the weighted mean to do so.
+#' The implementation does not apply a sample correction factor,
+#' i.e., it does not divide by `sum(weights) - 1`.
 #'
 #' @param x A numeric vector.
 #' @param w A numeric vector of weights.
@@ -26,27 +28,45 @@ weighted_var <- function(x, w, na.rm = FALSE) {
     stop("TypeError: x and w must be numeric vectors")
   }
 
-  if (!na.rm) {
-    if (length(x) != length(w)) {
-      stop("ValueError: x and w must have the same length")
-    }
-    if (any(w < 0)) {
-      stop("ValueError: w must be non-negative")
-    }
-  } else {
+  x_original <- x
+  w_original <- w
+  
+  if (na.rm) {
+    complete_cases <- !is.na(x) & !is.na(w)
+    x <- x[complete_cases]
+    w <- w[complete_cases]
+  }
 
-    x <- x[!is.na(x)]
-    w <- w[!is.na(w)]
+  if (length(x) != length(w)) {
+    stop("ValueError: x and w must have the same length after handling NAs (if na.rm = TRUE)")
+  }
 
-    if (length(x) != length(w)) {
-      stop("ValueError: x and w must have the same valid values after removing NAs")
-    }
-    if (any(w < 0)) {
-      stop("ValueError: w must be non-negative")
+  if (length(x) == 0) {
+    if (na.rm && sum(!is.na(x_original) & !is.na(w_original)) == 0 && (length(x_original) > 0 || length(w_original) > 0)) {
+        return(NA_real_)
+    } else if (length(x_original) == 0 && length(w_original) == 0) {
+        return(NA_real_)
+    } else {
+        return(NA_real_)
     }
   }
 
-  weighted_mean     <- sum(x * w) / sum(w)
+
+  if (any(w < 0, na.rm = TRUE)) {
+    stop("ValueError: weights w must be non-negative")
+  }
+
+  if (sum(w) == 0) {
+      if (all(x == x[1])) return(0)
+      return(NaN) # Or NA_real_ depending on desired behavior for sum(w) = 0
+  }
+
+  weighted_mean   <- sum(x * w) / sum(w)
+
+  if (length(x) == 1) {
+      return(0)
+  }
+
   weighted_variance <- sum(w * (x - weighted_mean)^2) / sum(w)
 
   return(weighted_variance)
