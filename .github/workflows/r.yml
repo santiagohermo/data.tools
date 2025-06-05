@@ -19,22 +19,33 @@ permissions:
 
 jobs:
   build:
-    runs-on: macos-latest
+    # Run on both macos-latest and windows-latest
+    runs-on: ${{ matrix.os }}
     strategy:
+      # Define a matrix of operating systems and R versions
       matrix:
+        os: [macos-latest, windows-latest]
         r-version: ['3.6.3', '4.1.1']
+        # Optionally, you can add include/exclude configurations here
+        # For example, if a specific R version isn't available on an OS
+        # include:
+        #   - os: windows-latest
+        #     r-version: 'release' # to use the latest R release on Windows
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up R ${{ matrix.r-version }}
+
+      - name: Set up R ${{ matrix.r-version }} on ${{ matrix.os }}
         uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
         with:
           r-version: ${{ matrix.r-version }}
+
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+
       - name: Check
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
