@@ -3,10 +3,8 @@
 #' @description
 #' This function computes the weighted variance of a numeric vector.
 #' It uses the weighted mean to do so.
-#' The formula implemented is:
-#' \[
-#' \text{Weighted Variance} = \frac{\sum w_i (x_i - \bar{x}_w)^2}{\sum w_i}
-#' \]
+#' The implementation does not apply a sample correction factor,
+#' i.e., it does not divide by `sum(weights) - 1`.
 #'
 #' @param x A numeric vector.
 #' @param w A numeric vector of weights.
@@ -30,6 +28,9 @@ weighted_var <- function(x, w, na.rm = FALSE) {
     stop("TypeError: x and w must be numeric vectors")
   }
 
+  x_original <- x
+  w_original <- w
+  
   if (na.rm) {
     complete_cases <- !is.na(x) & !is.na(w)
     x <- x[complete_cases]

@@ -19,6 +19,8 @@ The weighted variance.
 \description{
 This function computes the weighted variance of a numeric vector.
 It uses the weighted mean to do so.
+The implementation does not apply a sample correction factor,
+i.e., it does not divide by \code{sum(weights) - 1}.
 }
 \examples{
 
