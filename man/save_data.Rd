@@ -34,7 +34,7 @@ Deafults to NULL. Set to FALSE to not create a log file.}
 A message indicating successful saving of the data file.
 }
 \description{
-This function saves a data table to various formats including \code{csv}, \code{dta}, \code{fst}, \code{feather}, and \code{rds}.
+This function saves a data table to various formats including \code{csv}, \code{dta}, \code{fst}, \code{feather}, \code{parquet}, and \code{rds}.
 It generates a log file containing the summary of a given data table and the key.
 It checks if a given key (or keys) is present in the data.table object and uniquely identifies each observation.
 }

@@ -1,7 +1,7 @@
 #' @title Save data to various formats
 #'
 #' @description
-#' This function saves a data table to various formats including `csv`, `dta`, `fst`, `feather`, and `rds`.
+#' This function saves a data table to various formats including `csv`, `dta`, `fst`, `feather`, `parquet`, and `rds`.
 #' It generates a log file containing the summary of a given data table and the key.
 #' It checks if a given key (or keys) is present in the data.table object and uniquely identifies each observation.
 #'
@@ -39,7 +39,7 @@
 #' @importFrom data.table fwrite setDT is.data.table
 #' @importFrom haven write_dta
 #' @importFrom fst write_fst
-#' @importFrom arrow write_feather
+#' @importFrom arrow write_feather write_parquet
 #' 
 #' @export
 #'
@@ -104,8 +104,11 @@ save_data <- function(dt, key, outfile,
   } else if (tolower(filetype) == "feather") {
 
     arrow::write_feather(dt, outfile)
+  } else if (tolower(filetype) == "parquet") {
+
+    arrow::write_parquet(dt, outfile)
   } else {
-    stop("Incorrect format. Only .csv, .dta, .fst, .feather, and .rds are allowed.")
+    stop("Incorrect format. Only .csv, .dta, .fst, .feather, .parquet, and .rds are allowed.")
   }
 
   message(paste0("File '", outfile, "' saved successfully."))
