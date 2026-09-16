@@ -4,14 +4,23 @@
 \alias{weighted_sd}
 \title{Weighted Standard Deviation}
 \usage{
-weighted_sd(x, w, na.rm = FALSE)
+weighted_sd(
+  x,
+  w,
+  na.rm = FALSE,
+  correction = c("none", "frequency", "reliability")
+)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
 \item{w}{A numeric vector of weights.}
 
-\item{na.rm}{A logical value indicating whether NA values in both \code{x} and \code{w} should be removed.}
+\item{na.rm}{A logical value indicating whether observations with an NA in either \code{x} or \code{w} should be removed.
+If FALSE (the default) and any NA is present, \code{NA_real_} is returned.}
+
+\item{correction}{The sample correction applied to the denominator of the variance.
+See \code{\link{weighted_var}}.}
 }
 \value{
 The weighted standard deviation.

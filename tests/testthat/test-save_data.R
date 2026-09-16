@@ -85,6 +85,20 @@ test_that("save_data correctly saves data table in Feather format", {
   file.remove("dt_test.feather")
 })
 
+test_that("save_data correctly saves data table in Parquet format", {
+  
+  dt <- data.table(id = c(1, 2, 3, 4),
+                    y  = c(3.2, 3.8, 4.5, 2.9),
+                    x  = c(5.1, 6.3, 7.0, 5.4))
+  
+  save_data(dt, key = "id", outfile = "dt_test.parquet")
+  saved_data <- read_parquet("dt_test.parquet")
+  for (rr in names(dt)) {
+    expect_equal(saved_data[[rr]], dt[[rr]])
+  }
+  file.remove("dt_test.parquet")
+})
+
 test_that("save_data correctly stops execution when directory does not exist", {
   
   dt <- data.table(id = c(1, 2, 3, 4),
@@ -103,7 +117,7 @@ test_that("save_data correctly stops execution when incorrect format is provided
                     x  = c(5.1, 6.3, 7.0, 5.4))
   
   expect_error(save_data(dt, key = "id", outfile = "dt_test.xyz"),
-               "Incorrect format. Only .csv, .dta, .fst, .feather, and .rds are allowed.")
+               "Incorrect format. Only .csv, .dta, .fst, .feather, .parquet, and .rds are allowed.")
 })
 
 test_that("save_data correctly stops when invalid key is provided", {

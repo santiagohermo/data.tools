@@ -7,7 +7,10 @@
 #'
 #' @param x A numeric vector.
 #' @param w A numeric vector of weights.
-#' @param na.rm A logical value indicating whether NA values in both `x` and `w` should be removed.
+#' @param na.rm A logical value indicating whether observations with an NA in either `x` or `w` should be removed.
+#' If FALSE (the default) and any NA is present, `NA_real_` is returned.
+#' @param correction The sample correction applied to the denominator of the variance.
+#' See \code{\link{weighted_var}}.
 #'
 #' @return The weighted standard deviation.
 #'
@@ -21,8 +24,9 @@
 #'
 #' @export
 #'
-weighted_sd <- function(x, w, na.rm = FALSE) {
+weighted_sd <- function(x, w, na.rm = FALSE,
+                        correction = c("none", "frequency", "reliability")) {
   
-  sqrt(weighted_var(x, w, na.rm))
+  sqrt(weighted_var(x, w, na.rm, correction))
   
 }

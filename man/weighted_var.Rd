@@ -4,14 +4,25 @@
 \alias{weighted_var}
 \title{Weighted Variance}
 \usage{
-weighted_var(x, w, na.rm = FALSE)
+weighted_var(
+  x,
+  w,
+  na.rm = FALSE,
+  correction = c("none", "frequency", "reliability")
+)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
 \item{w}{A numeric vector of weights.}
 
-\item{na.rm}{A logical value indicating whether NA values in both \code{x} and \code{w} should be removed.}
+\item{na.rm}{A logical value indicating whether observations with an NA in either \code{x} or \code{w} should be removed.
+If FALSE (the default) and any NA is present, \code{NA_real_} is returned.}
+
+\item{correction}{The sample correction applied to the denominator. One of \code{"none"} (the default,
+divides by \code{sum(w)}), \code{"frequency"} (divides by \code{sum(w) - 1}, for weights that count repeated
+observations), or \code{"reliability"} (divides by \code{sum(w) - sum(w^2) / sum(w)}, for analytic weights).
+\code{NA_real_} is returned when the resulting denominator is not positive.}
 }
 \value{
 The weighted variance.
@@ -19,8 +30,9 @@ The weighted variance.
 \description{
 This function computes the weighted variance of a numeric vector.
 It uses the weighted mean to do so.
-The implementation does not apply a sample correction factor,
-i.e., it does not divide by \code{sum(weights) - 1}.
+By default no sample correction is applied, i.e., the weighted sum of squared
+deviations is divided by \code{sum(w)}. Use \code{correction} to obtain a sample variance
+under frequency or reliability (analytic) weights.
 }
 \examples{
 
@@ -28,7 +40,11 @@ x <- c(1, 2, 3, 4, 5)
 w <- c(0.1, 0.2, 0.3, 0.2, 0.2)
 weighted_var(x, w)
 
+# With frequency weights, matches the sample variance of the expanded vector
+weighted_var(c(1, 2, 3), c(2, 3, 5), correction = "frequency")
+var(rep(c(1, 2, 3), c(2, 3, 5)))
+
 }
 \seealso{
-\code{\link{var}}, \code{\link{mean}}, \code{\link{weighted.mean}}.
+\code{\link{var}}, \code{\link{mean}}, \code{\link{weighted.mean}}, \code{\link{weighted_sd}}.
 }

@@ -11,13 +11,16 @@ weighted_median(x, w, na.rm = FALSE)
 
 \item{w}{A numeric vector of weights, corresponding to the values in x.}
 
-\item{na.rm}{A logical value indicating whether NA values in \code{x} should be removed before computation. Defaults to FALSE.}
+\item{na.rm}{A logical value indicating whether observations with an NA in either \code{x} or \code{w} should be
+removed before computation. Defaults to FALSE, in which case any NA leads to \code{NA_real_}.}
 }
 \value{
 The weighted median value.
 }
 \description{
 This function computes the weighted median of a numeric vector.
+When the cumulative weight lands exactly on 0.5 the two straddling values are
+averaged, so that with equal weights the result matches \code{\link{median}}.
 }
 \examples{
 
@@ -29,6 +32,10 @@ weighted_median(x, w)
 values <- c(10, 20, 30, 40, 50)
 weights <- c(1, 2, 1, 5, 1) 
 weighted_median(values, weights)
+
+# With equal weights it reduces to the unweighted median
+weighted_median(c(1, 2, 3, 4), rep(1, 4))
+median(c(1, 2, 3, 4))
 
 # Example with NA values
 x_na <- c(1, 2, NA, 4, 5)
