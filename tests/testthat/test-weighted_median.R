@@ -30,7 +30,7 @@ test_that("returns an error when vectors have different lengths", {
   x <- c(1, 2, 3, 4, 5)
   w <- c(0.1, 0.2, 0.3, 0.2)
   
-  expect_error(weighted_median(x, w), "ValueError: x and w must have the same length after handling NAs.")
+  expect_error(weighted_median(x, w), "ValueError: x and w must have the same length")
 })
 
 test_that("returns an error when any weight is negative", {
@@ -97,4 +97,33 @@ test_that("handles a single element vector", {
     w <- c(10)
     
     expect_equal(weighted_median(x, w), 42)
+})
+
+test_that("reduces to the unweighted median with equal weights", {
+  for (n in 2:8) {
+    x <- seq_len(n)
+    expect_equal(weighted_median(x, rep(1, n)), median(x))
+  }
+})
+
+test_that("averages the straddling values when the weights cross exactly at 0.5", {
+  # Cumulative normalised weights: 0.25, 0.5, 1.0 -> straddles 2 and 3.
+  expect_equal(weighted_median(c(1, 2, 3), c(1, 1, 2)), 2.5)
+
+  # Cumulative normalised weights: 0.25, 0.5, 0.75, 1.0 -> straddles 20 and 30.
+  expect_equal(weighted_median(c(10, 20, 30, 40), c(2, 2, 2, 2)), 25)
+})
+
+test_that("does not average when the crossing is strictly above 0.5", {
+  # Cumulative normalised weights: 0.25, 0.75, 1.0 -> the median is 2.
+  expect_equal(weighted_median(c(1, 2, 3), c(1, 2, 1)), 2)
+})
+
+test_that("reports mismatched lengths even when na.rm = TRUE", {
+  expect_error(weighted_median(c(1, 2, 3, 4), c(1, 2), na.rm = TRUE),
+               "ValueError: x and w must have the same length")
+})
+
+test_that("returns NA when na.rm = FALSE and NAs are present in w", {
+  expect_equal(weighted_median(c(1, 2, 3), c(1, 1, NA)), NA_real_)
 })
